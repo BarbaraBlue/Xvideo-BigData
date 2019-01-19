@@ -12,6 +12,10 @@ library(data.table)
 
 #==================== usando Xvideos ====================#
 
+## FALTA: Abrir y transformar a data.frame el archivo CVS
+
+## FALTA: FOR-LOOP para recorrer de página en página
+
 # Inicializando la var de archivo con el nombre de la página a utilizar
 paginaXVideos <- 'https://www.xvideos.com/new/1/'
 
@@ -86,10 +90,12 @@ Visitas <- strsplit(viewsXVideos,"-")
 # Ejemplo: VisitasXVideo(4k)-> 4000
 
 VisitasXVideo <- function (entrada){
-  if(entrada[2]=="k"){
+  # para los elementos que no tienen ni k, ni M, se usa is.na
+  if(is.na(entrada[2])){
+    entrada[1] <- as.numeric(entrada[1])
+  }else if(entrada[2]=="k"){
     entrada[1] <- as.numeric(entrada[1])*1000
-  }
-  else if(entrada[2]=="M"){
+  }else if(entrada[2]=="M"){
     entrada[1] <- as.numeric(entrada[1])*1000000
   }
   return(entrada[1])
@@ -100,17 +106,16 @@ for(i in 1:length(Visitas)){
   Visitas[i] <- VisitasXVideo(Visitas[[i]])
 }
 
-# Ver la posicion 1 de visitas
-Visitas[1]
+# Extrae los elementos de la lista y los pasa a una lista
+unlistVisitas <- unlist(Visitas)
 
 
 #==================== UNA GRAN TABLA ====================#
 
 # Creando una tabla con mas de una columna
-dfvideos <- data.frame(LINKS = todosLosLinksXvideo, TITULO = textoXVideos, DURACION = DuracionXVideos, VIEWS = transpose(Visitas))
+dfvideos <- data.frame(LINKS = todosLosLinksXvideo, TITULO = textoXVideos, DURACION = DuracionXVideos, VIEWS = unlistVisitas)
 
-# Se detecta error en el titulo de "VISITAS", no hay caso
-# AYUDA AMARU :c 
+# FALTA: unir los data.frames
 
 ##### Se guardan los datos porque hay que empezar a tener algo ya po :c
 #alamacenando la informacion en CSV
