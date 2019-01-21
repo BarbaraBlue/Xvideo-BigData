@@ -29,9 +29,8 @@ print(contenidoWebXVideos[1])
 linksVIDEOS <- html_attr(contenidoWebXVideos,"href")
 
 # Arreglando los links de todos los videos
-for(i in 1:27){
-  linksXvideo <- print(paste("http://www.xvideos.com",linksVIDEOS,sep = ""))
-}
+# No se necesita el for, la regla se aplica a cada uno de los campos de la columna
+linksXvideo <- print(paste("http://www.xvideos.com",linksVIDEOS,sep = ""))
 
 # Viendo que tiene la posicion 1 de la variable todosLosLinksXvideo
 print(linksXvideo[1])
