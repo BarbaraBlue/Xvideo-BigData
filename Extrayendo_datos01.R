@@ -52,34 +52,34 @@ print(DuracionXVideos[1])
 
 ###INTENTO DE EXTRACCION DE INFO DE CADA UNO DE LOS LINKS CON FOR####
 # Ojo, antes: Correr funcion Visitas (que esta mas abajo)
-### Problema: la funcion for no esta recorriendo todos los links, solo el 1
 
 
 for(i in 1:length(linksXvideo)){
+  # Print para ir viendo en que link va
   print(paste("Link ---->",linksXvideo[[i]],sep = ""))
   Leer_links <- read_html(linksXvideo[[i]])
-    Views_links <- html_nodes(Leer_links,'.views-full')
-    texto_views <- html_text(Views_links)
-    texto_views <- gsub("\n","",texto_views)
-    texto_views <- gsub("\t","",texto_views)
-    texto_views <- gsub("views","",texto_views)
-    texto_views <- gsub(",","",texto_views)
-    Rating_links <- html_nodes(Leer_links,'.rating-inbtn')
-    texto_rating <- html_text(Rating_links)
-    Views_like <- texto_rating[1]
-    Views_like <- gsub("k","-k",Views_like)
-    Views_like <- gsub("M","-M",Views_like)
-    Likes <- strsplit(Views_like,"-")
-    for(j in 1:length(Likes)){
+  Views_links <- html_nodes(Leer_links,'.views-full')
+  texto_views <- html_text(Views_links)
+  texto_views <- gsub("\n","",texto_views)
+  texto_views <- gsub("\t","",texto_views)
+  texto_views <- gsub("views","",texto_views)
+  texto_views <- gsub(",","",texto_views)
+  Rating_links <- html_nodes(Leer_links,'.rating-inbtn')
+  texto_rating <- html_text(Rating_links)
+  Views_like <- texto_rating[1]
+  Views_like <- gsub("k","-k",Views_like)
+  Views_like <- gsub("M","-M",Views_like)
+  Likes <- strsplit(Views_like,"-")
+  for(j in 1:length(Likes)){
       Likes[j] <- VisitasXVideo(Likes[[j]])
-    }
-    Views_dislike <- texto_rating[2]
-    Views_dislike <- gsub("k","-k",Views_dislike)
-    Views_dislike <- gsub("M","-M",Views_dislike)
-    Dislikes <- strsplit(Views_dislike,"-")
-    for(j in 1:length(Dislikes)){
+  }
+  Views_dislike <- texto_rating[2]
+  Views_dislike <- gsub("k","-k",Views_dislike)
+  Views_dislike <- gsub("M","-M",Views_dislike)
+  Dislikes <- strsplit(Views_dislike,"-")
+  for(j in 1:length(Dislikes)){
       Dislikes[j] <- VisitasXVideo(Dislikes[[j]])
-    }  
+  }  
 }
 
 ## EJEMPLO EXTRACCION DATOS 
