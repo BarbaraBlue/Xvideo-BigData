@@ -57,32 +57,29 @@ print(DuracionXVideos[1])
 
 
 for(i in 1:length(linksXvideo)){
+  print(paste("Link ---->",linksXvideo[[i]],sep = ""))
   Leer_links <- read_html(linksXvideo[[i]])
-    for (View in Leer_links){
     Views_links <- html_nodes(Leer_links,'.views-full')
     texto_views <- html_text(Views_links)
     texto_views <- gsub("\n","",texto_views)
     texto_views <- gsub("\t","",texto_views)
     texto_views <- gsub("views","",texto_views)
-    texto_views <- gsub(",","",texto_views)  
-    }
-    for (Rating in Leer_links){
+    texto_views <- gsub(",","",texto_views)
     Rating_links <- html_nodes(Leer_links,'.rating-inbtn')
     texto_rating <- html_text(Rating_links)
     Views_like <- texto_rating[1]
     Views_like <- gsub("k","-k",Views_like)
     Views_like <- gsub("M","-M",Views_like)
     Likes <- strsplit(Views_like,"-")
-      for(i in 1:length(Likes)){
-      Likes[i] <- VisitasXVideo(Likes[[i]])
-      }
+    for(j in 1:length(Likes)){
+      Likes[j] <- VisitasXVideo(Likes[[j]])
+    }
     Views_dislike <- texto_rating[2]
     Views_dislike <- gsub("k","-k",Views_dislike)
     Views_dislike <- gsub("M","-M",Views_dislike)
     Dislikes <- strsplit(Views_dislike,"-")
-      for(i in 1:length(Dislikes)){
-      Dislikes[i] <- VisitasXVideo(Dislikes[[i]])
-      }  
+    for(j in 1:length(Dislikes)){
+      Dislikes[j] <- VisitasXVideo(Dislikes[[j]])
     }  
 }
 
@@ -149,10 +146,12 @@ Visitas <- strsplit(viewsXVideos,"-")
 # Ejemplo: VisitasXVideo(4k)-> 4000
 
 VisitasXVideo <- function (entrada){
-  if(entrada[2]=="k"){
+  # para los elementos que no tienen ni k, ni M, se usa is.na
+  if(is.na(entrada[2])){
+    entrada[1] <- as.numeric(entrada[1])
+  }else if(entrada[2]=="k"){
     entrada[1] <- as.numeric(entrada[1])*1000
-  }
-  else if(entrada[2]=="M"){
+  }else if(entrada[2]=="M"){
     entrada[1] <- as.numeric(entrada[1])*1000000
   }
   return(entrada[1])
